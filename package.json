@@ -1,0 +1,21 @@
+{
+	"name": "yarn-vtools",
+	"description": "Miscellaneous tools and plugins for Yarn.",
+	"version": "0.0.1",
+	"license": "MIT",
+	"author": "Venryx (https://venryx.com)",
+	"repository": "https://github.com/Venryx/yarn-vtools",
+	"scripts": {
+		"build-all": "cd Packages/yarn-plugin-vtools && yarn build"
+	},
+	"dependencies": {
+		"@types/node": "^15.0.0",
+		"@yarnpkg/builder": "^2.1.3",
+		"@yarnpkg/cli": "^2.4.0",
+		"@yarnpkg/core": "^2.4.0",
+		"@yarnpkg/fslib": "^2.4.0",
+		"@yarnpkg/libzip": "^2.2.1",
+		"@yarnpkg/plugin-pack": "^2.2.3",
+		"typescript": "^4.1.3"
+	}
+}
