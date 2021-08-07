@@ -32,7 +32,7 @@ Setup:
 			overrides_forSelf: {
 				"directDepA": "directDepA@1.0.0",
 				"directDepB": "directDepA@^1.0.0",
-				"directDepC": "link:../../../@Modules/directDepB",
+				"directDepC": "link:../../../@Modules/directDepB"
 			},
 			// and for nested subdependencies here (not tested much yet)
 			overrides_forDeps: {
