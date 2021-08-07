@@ -2,21 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const module_1 = require("module");
 const config = {};
-function ConditionsMatch(conditions) {
-    return conditions.every(cond => ConditionMatches(cond));
-}
-function ConditionMatches(condition) {
-    let result = true;
-    if (condition.envVarEquals) {
-        const envVarVal = process.env[condition.envVarEquals.name];
-        //console.log("Val:", envVarVal, "@env:", process.env);
-        if (envVarVal != condition.envVarEquals.value)
-            result = false;
-    }
-    if (condition.invert)
-        result = !result;
-    return result;
-}
 //const plugin: Plugin<CoreHooks & PatchHooks> = {...};
 //export {plugin as default};
 //export default plugin;
@@ -36,7 +21,7 @@ module.exports = {
                   scriptEnv.HELLO_WORLD = `my first plugin!`;
                 },*/
                 registerPackageExtensions: async (configuration, registerPackageExtension) => {
-                    var _a, _b, _c, _d, _e;
+                    var _a, _b, _c, _d;
                     const paths = require("path");
                     const fs = require("fs");
                     const { structUtils } = require("@yarnpkg/core");
@@ -82,12 +67,10 @@ module.exports = {
                     }
                     const regularDepsToOmit_byParentPackIdentHash = new Map();
                     for (const group of groups) {
+                        if (!group)
+                            continue;
                         // set default field values
                         group.omitPriorDeps_auto = (_a = group.omitPriorDeps_auto) !== null && _a !== void 0 ? _a : true;
-                        if (!ConditionsMatch((_b = group.conditions) !== null && _b !== void 0 ? _b : [])) {
-                            console.log(`Ignoring overrides group "${group.name}"...`);
-                            continue;
-                        }
                         console.log(`Preparing overrides group "${group.name}"...`);
                         // helper for most common case, of overriding the versions/protocols of project direct-dependencies (note: lacks some options that overrides_forDeps provides, like overrides for peer-deps)
                         if (group.overrides_forSelf) {
@@ -104,12 +87,12 @@ module.exports = {
                             ];
                             regularDepsToOmit_byParentPackIdentHash.set(selfPackage_descriptor.identHash, selfPackage_extensionData_identHashes);
                         }
-                        for (const [packageDescriptor, packageOverrides] of Object.entries((_c = group.overrides_forDeps) !== null && _c !== void 0 ? _c : [])) {
+                        for (const [packageDescriptor, packageOverrides] of Object.entries((_b = group.overrides_forDeps) !== null && _b !== void 0 ? _b : [])) {
                             const descriptor = structUtils.parseDescriptor(packageDescriptor, true);
                             registerPackageExtension(descriptor, packageOverrides);
                             const allPackageOverrides_identHashes = [
-                                ...group.omitPriorDeps_auto ? Object.keys((_d = packageOverrides.dependencies) !== null && _d !== void 0 ? _d : {}).map(DepNameToIdentHash) : [],
-                                ...group.omitPriorDeps_auto ? Object.keys((_e = packageOverrides.peerDependencies) !== null && _e !== void 0 ? _e : {}).map(DepNameToIdentHash) : [],
+                                ...group.omitPriorDeps_auto ? Object.keys((_c = packageOverrides.dependencies) !== null && _c !== void 0 ? _c : {}).map(DepNameToIdentHash) : [],
+                                ...group.omitPriorDeps_auto ? Object.keys((_d = packageOverrides.peerDependencies) !== null && _d !== void 0 ? _d : {}).map(DepNameToIdentHash) : [],
                                 ...group.omitPriorDeps_manual ? Object.keys(group.omitPriorDeps_manual).map(DepNameToIdentHash) : [],
                             ];
                             regularDepsToOmit_byParentPackIdentHash.set(descriptor.identHash, allPackageOverrides_identHashes);

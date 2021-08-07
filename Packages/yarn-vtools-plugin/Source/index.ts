@@ -6,33 +6,10 @@ const config: Partial<ConfigurationDefinitionMap> = {};
 
 interface Group {
 	name?: string;
-	conditions?: Condition[];
 	overrides_forSelf?: {[key: string]: string};
 	overrides_forDeps?: {[key: string]: PackageExtensionData};
 	omitPriorDeps_auto?: boolean;
 	omitPriorDeps_manual?: string[];
-}
-interface Condition {
-	invert?: boolean;
-	envVarEquals?: Cond_EnvVarEquals;
-}
-interface Cond_EnvVarEquals {
-	name: string;
-	value: string;
-}
-
-function ConditionsMatch(conditions: Condition[]) {
-	return conditions.every(cond=>ConditionMatches(cond));
-}
-function ConditionMatches(condition: Condition) {
-	let result = true;
-	if (condition.envVarEquals) {
-		const envVarVal = process.env[condition.envVarEquals.name];
-		//console.log("Val:", envVarVal, "@env:", process.env);
-		if (envVarVal != condition.envVarEquals.value) result = false;
-	}
-	if (condition.invert) result = !result;
-	return result;
 }
 
 //const plugin: Plugin<CoreHooks & PatchHooks> = {...};
@@ -102,13 +79,10 @@ module.exports = {
 
 					const regularDepsToOmit_byParentPackIdentHash = new Map<IdentHash, IdentHash[]>();
 					for (const group of groups) {
+						if (!group) continue;
 						// set default field values
 						group.omitPriorDeps_auto = group.omitPriorDeps_auto ?? true;
 
-						if (!ConditionsMatch(group.conditions ?? [])) {
-							console.log(`Ignoring overrides group "${group.name}"...`);
-							continue;
-						}
 						console.log(`Preparing overrides group "${group.name}"...`);
 		
 						// helper for most common case, of overriding the versions/protocols of project direct-dependencies (note: lacks some options that overrides_forDeps provides, like overrides for peer-deps)
