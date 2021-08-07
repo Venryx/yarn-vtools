@@ -35,7 +35,8 @@ export class VResolver implements Resolver {
 			peerDependencies: new Map(),
 			dependenciesMeta: new Map(),
 			peerDependenciesMeta: new Map(),
-			bin: null,
+			//bin: null,
+			bin: new Map(),
 		};
 	}
 }

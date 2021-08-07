@@ -1,5 +1,5 @@
 {
-	"name": "yarn-plugin-vtools",
+	"name": "yarn-vtools-plugin",
 	"description": "Miscellaneous tools and plugins for Yarn.",
 	"version": "0.0.1",
 	"license": "MIT",

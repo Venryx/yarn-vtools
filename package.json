@@ -6,7 +6,9 @@
 	"author": "Venryx (https://venryx.com)",
 	"repository": "https://github.com/Venryx/yarn-vtools",
 	"scripts": {
-		"build-all": "cd Packages/yarn-plugin-vtools && yarn build"
+		"#build-all": "yarn build-plugin",
+		"#build-plugin": "cd Packages/yarn-vtools-plugin && yarn build",
+		"dev": "cd Packages/yarn-vtools-plugin && tsc --watch"
 	},
 	"dependencies": {
 		"@types/node": "^15.0.0",
