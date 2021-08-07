@@ -13,7 +13,7 @@ Setup:
 	plugins:
 	- .yarn/plugins/yarn-vtools-plugin/index.js
 	```
-3) Create a `YVTConfig.[js/mjs/cjs]` file in your repo-root (ie. working-directory when running yarn), with a `config` export.
+3) Create a `YVTConfig.[js/cjs/mjs]` file in your repo-root (ie. working-directory when running yarn), with a `config` export.
 
 	Example: (see source code for all options, defined using TS interfaces)
 	```js
