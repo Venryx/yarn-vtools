@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const module_1 = require("module");
 const config = {};
 function ConditionsMatch(conditions) {
     return conditions.every(cond => ConditionMatches(cond));
@@ -49,14 +50,36 @@ module.exports = {
                             return `[could not find name for ident-hash: ${identHash}]`;
                         return entry[1].name;
                     }
-                    console.log("Yarn-vtools-plugin starting...");
-                    const projectFolder = configuration.projectCwd;
-                    const packageJSONPath = paths.join(projectFolder, "package.json").replace("\\C:\\", "C:\\");
+                    //console.log("Yarn-vtools-plugin starting...");
+                    const projectFolder = configuration.projectCwd.replace(/\\/g, "/").replace("/C:/", "C:/");
+                    const packageJSONPath = paths.join(projectFolder, "package.json");
                     const packageJSONText = fs.readFileSync(packageJSONPath).toString();
                     const packageJSONObj = JSON.parse(packageJSONText);
-                    const groups = packageJSONObj.dependencyOverrideGroups;
-                    if (groups == null)
+                    let groups;
+                    const yvtConfigPaths = [
+                        paths.join(projectFolder, "YVTConfig.js"),
+                        paths.join(projectFolder, "YVTConfig.mjs"),
+                        paths.join(projectFolder, "YVTConfig.cjs"),
+                    ];
+                    const yvtConfigPath = yvtConfigPaths.find(a => fs.existsSync(a));
+                    if (yvtConfigPath) {
+                        console.log("Yarn-vtools-plugin starting. Config found at:", yvtConfigPath);
+                        /*const yvtConfigJSON = fs.readFileSync(yvtConfigPath).toString();
+                        const yvtConfigObj = JSON.parse(yvtConfigJSON);*/
+                        const require_node = module_1.createRequire(projectFolder);
+                        const yvtConfigFileExports = require_node(yvtConfigPath);
+                        //console.log("yvtConfigFileExports:", yvtConfigFileExports);
+                        const yvtConfigObj = yvtConfigFileExports.config;
+                        groups = yvtConfigObj.dependencyOverrideGroups;
+                    }
+                    else if (packageJSONObj.dependencyOverrideGroups != null) {
+                        console.log("Yarn-vtools-plugin starting. Config found in:", packageJSONPath);
+                        groups = packageJSONObj.dependencyOverrideGroups;
+                    }
+                    else {
+                        console.log("Yarn-vtools-plugin could not find config info, in project folder:", projectFolder);
                         return;
+                    }
                     const regularDepsToOmit_byParentPackIdentHash = new Map();
                     for (const group of groups) {
                         // set default field values

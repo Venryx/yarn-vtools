@@ -17,7 +17,8 @@ plugins:
 ```
 
 Usage:
-1) Add something like the below to your `package.json`: (see source code for typescript definitions)
+1) Add configuration information.
+1.1) [option 1] Add something like the below to your `package.json`: (see source code for typescript definitions)
 ```
 	"dependencyOverrideGroups": [
 		{
@@ -48,5 +49,14 @@ Usage:
 			}
 		}
 	],
+```
+1.2) [option 2] Create a `YVTConfig.[js/mjs/cjs]` file, with a `config` export. Example:
+```
+exports.config = {
+	"dependencyOverrideGroups":
+		process.env.MYPROJECT_USER == "bob" ? [...] :
+		process.env.MYPROJECT_USER == "alice" ? [...] :
+		[],
+};
 ```
 2) Profit. Future yarn-installs will use the listed overrides for installing the dependencies.
