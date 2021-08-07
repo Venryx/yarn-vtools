@@ -37,25 +37,23 @@ Setup:
 			// and for nested subdependencies here (not tested much yet)
 			overrides_forDeps: {
 				"directDepD": {
-					dependencies: {
-						"subDepA": "subDepA@1.0.0"
-					},
-					peerDependencies: {
-						"subDepB": "subDepB@1.0.0"
-					},
-					peerDependenciesMeta: {
-						"subDepB": {"optional": true},
-					}
+					dependencies: {"subDepA": "subDepA@1.0.0"},
+					peerDependencies: {"subDepB": "subDepB@1.0.0"},
+					peerDependenciesMeta: {"subDepB": {"optional": true}}
 				}
 			}
 		},
 		// conditional overrides also work; just use javascript/nodejs conditionals like usual
 		process.env.MYPROJECT_USER == "bob" && {
-			overrides_forSelf: {...}
+			overrides_forSelf: {
+				"depA": `link:../../bob's/path/to/depA`
+			}
 		},
 		process.env.MYPROJECT_USER == "alice" && {
-			overrides_forSelf: {...}
-		},
+			overrides_forSelf: {
+				"depA": `link:/alice's/path/to/depA`
+			}
+		}
 	];
 	```
 
