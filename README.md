@@ -16,7 +16,7 @@ Setup:
 3) Create a `YVTConfig.[js/mjs/cjs]` file in your repo-root (ie. working-directory when running yarn), with a `config` export.
 
 	Example: (see source code for all options, defined using TS interfaces)
-	```
+	```js
 	exports.config = {
 		"dependencyOverrideGroups": [...]
 	};
@@ -25,25 +25,25 @@ Setup:
 ### Feature: Conditional version/protocol overrides for dependencies
 
 1) Add info to config:
-```
+```js
 config.dependencyOverrideGroups = [
 	{
 		// you can change the versions/protocols of direct-dependencies here
-		"overrides_forSelf": {
+		overrides_forSelf: {
 			"directDepA": "directDepA@1.0.0",
 			"directDepB": "directDepA@^1.0.0",
 			"directDepC": "link:../../../@Modules/directDepB",
 		},
 		// and for nested subdependencies here (not tested much yet)
-		"overrides_forDeps": {
+		overrides_forDeps: {
 			"directDepD": {
-				"dependencies": {
+				dependencies: {
 					"subDepA": "subDepA@1.0.0"
 				},
-				"peerDependencies": {
+				peerDependencies: {
 					"subDepB": "subDepB@1.0.0"
 				},
-				"peerDependenciesMeta": {
+				peerDependenciesMeta: {
 					"subDepB": {"optional": true},
 				}
 			}
@@ -51,10 +51,10 @@ config.dependencyOverrideGroups = [
 	},
 	// conditional overrides also work; just use javascript/nodejs conditionals like usual
 	process.env.MYPROJECT_USER == "bob" && {
-		"overrides_forSelf": {...}
+		overrides_forSelf: {...}
 	},
 	process.env.MYPROJECT_USER == "alice" && {
-		"overrides_forSelf": {...}
+		overrides_forSelf: {...}
 	},
 ];
 ```
