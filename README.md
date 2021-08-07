@@ -58,4 +58,4 @@ config.dependencyOverrideGroups = [
 	},
 ];
 ```
-2) Profit. Future yarn-installs will run the config-getter script, read the list of overrides, overwrite its in-memory descriptors (ie. protocol, version, etc.) with those found in the overrides list (unless `omitPriorDeps_auto: false`), and then proceed with using those descriptors to install your project's dependencies.
+2) Profit. Future yarn-installs will run the config-getter script, read the list of overrides, overwrite its in-memory descriptors (ie. protocol, version, etc.) with those found in the overrides list, and then proceed with using those descriptors to install your project's dependencies.
