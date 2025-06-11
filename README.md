@@ -2,18 +2,18 @@
 
 Miscellaneous tools and plugins for Yarn.
 
-## Plugin: yarn-vtools-plugin
+## Plugin: yarn-plugin-vtools
 
 General plugin for functionality too minor to deserve its own package yet.
 
 Setup:
-1) Copy the `Packages/yarn-vtools-plugin/Dist` folder, and paste it into your project's `.yarn/plugins` folder, as `yarn-vtools-plugin`.
+1) Copy the `Packages/yarn-plugin-vtools/bundles/@yarnpkg` folder, and paste it into your project's `.yarn/plugins` folder, as `yarn-plugin-vtools`.
 2) Modify your `.yarnrc.yml` file to contain:
 	```
 	plugins:
-	- .yarn/plugins/yarn-vtools-plugin/index.js
+	- .yarn/plugins/yarn-plugin-vtools/plugin-vtools.js
 	```
-3) Create a `YVTConfig.[js/cjs/mjs]` file in your repo-root (ie. working-directory when running yarn), with a `config` export.
+3) Create a `YVTConfig.[js/cjs]` file in your repo-root (ie. working-directory when running yarn), with a `config` export.
 
 	Example: (see source code for all options, defined using TS interfaces)
 	```js
@@ -28,6 +28,7 @@ Setup:
 	```js
 	config.dependencyOverrideGroups = [
 		{
+			name: "my company's packages",
 			// you can change the versions/protocols of direct-dependencies here
 			overrides_forSelf: {
 				"directDepA": "directDepA@1.0.0",

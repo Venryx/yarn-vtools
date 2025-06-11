@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"rootDir": "Source",
 		//"sourceMap": true, // commented; doesn't work currently, so keeping Dist folder cleaner
-		"module": "CommonJS",
+		"module": "ESNext",
 		"moduleResolution": "node",
 		"target": "ES2018",
 		"jsx": "react",
@@ -12,7 +12,7 @@
 		//"esModuleInterop": true, // doesn't modify output, only code for the stuff we import
 		"outDir": "Dist",
 		"declaration": true,
-		"declarationDir": "Dist",
+		// "declarationDir": "Dist",
 
 		"useDefineForClassFields": true, // needed for mobx @observable
 		"lib": ["es6", "dom", "esnext"], // fixes AsyncIterator type-missing issue
